@@ -4,5 +4,6 @@ COPY . .
 RUN hugo --minify
 
 FROM caddy
+RUN mkdir -p /var/www/html
 COPY Caddyfile /etc/caddy/
-COPY --from=hugo public/* /var/www/html
+COPY --from=hugo /src/public /var/www/html
