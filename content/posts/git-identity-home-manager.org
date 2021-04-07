@@ -1,5 +1,6 @@
 #+title: multiple git identities with home-manager and fzf
 #+date: 2021-04-06
+#+draft: true
 #+tags[]: git, home-manager, nix
 
 
@@ -67,7 +68,8 @@ The important piece here is:
   ];
 #+END_SRC
 
-where ~git~ is a directory which includes
+when you import ~./git~ in your ~home.nix~ it will attempt to import the file called ~default.nix~
+from that directory.
 
 ~git/default.nix~:
 
@@ -75,18 +77,29 @@ where ~git~ is a directory which includes
   { config, lib, pkgs, ... }:
 
   {
+    # we will use the excellent fzf in our `git-identity` script, so let's make sure it's available
     home.packages = with pkgs; [ fzf ];
     programs.git = {
       enable = true;
       extraConfig = {
+        # extremely important, otherwise git will attempt to guess a default user identity. see `man git-config` for more details
         user.useConfigOnly = true;
+
+        # the `work` identity
         user.work.name = "Spider-Man";
         user.work.email = "friendlyspidey@neighborhood.com";
+
+        # the `personal` identity
         user.personal.name = "Peter Parker";
         user.personal.email = "peter@parker.com";
+        # I think spider-man might be peter parker! somebody get j jonah jameson on the line
+      };
+      aliases = {
+        identity = "! git-identity";
+        id = "! git-identity";
       };
     };
-  
+
     home.file."bin/git-identity" = {
       source = ./git-identity;
       executable = true;
@@ -95,25 +108,66 @@ where ~git~ is a directory which includes
   }
 #+END_SRC
 
-and 
+the ~default.nix~ relies on a script called ~git-identity~
+
+#+BEGIN_SRC nix
+  home.file."bin/git-identity" = {
+    source = ./git-identity;
+    executable = true;
+  };
+#+END_SRC
+
+so let's go ahead and create it. It is also in the ~./git~ directory
 
 ~git/git-identity~:
 #+NAME: git-identity
 #+BEGIN_SRC shell
-#!/usr/bin/env bash
+    #!/usr/bin/env bash
 
-IDENTITIES=$(git config --global --name-only --get-regexp "user.*..name" | sed -e 's/^user.//' -e 's/.name$//')
-ID=$(echo "${IDENTITIES}" | fzf -e -1 +m -q "$1")
-if ! git config --global --get-regexp "user.${ID}.name" > /dev/null; then
-    echo "Please use a valid git identity
-Options:"
-    git config --global --name-only --get-regexp "user.*..name" | sed -e 's/^user.//' -e 's/.name$//' -e 's/^/\t/'
-    exit 1
-fi
-git config user.name "$(git config user.${ID}.name)"
-git config user.email "$(git config user.${ID}.email)"
+    # get each set of usernames from the git config (which will be generated from our `default.nix` above)
+    IDENTITIES=$(git config --global --name-only --get-regexp "user.*..name" | sed -e 's/^user.//' -e 's/.name$//')
+    # filter them with fzf
+    ID=$(echo "${IDENTITIES}" | fzf -e -1 +m -q "$1")
+    if ! git config --global --get-regexp "user.${ID}.name" > /dev/null; then
+        echo "Please use a valid git identity
+    Options:"
+        git config --global --name-only --get-regexp "user.*..name" | sed -e 's/^user.//' -e 's/.name$//' -e 's/^/\t/'
+        exit 1
+    fi
+    # set the ID locally in each repo (eg in the repo's .git/config)
+    git config user.name "$(git config user.${ID}.name)"
+    git config user.email "$(git config user.${ID}.email)"
 
-echo "Name: $(git config user.name)"
-echo "Email: $(git config user.email)"
+    echo "Name: $(git config user.name)"
+    echo "Email: $(git config user.email)"
 #+END_SRC
+
+
+To make that all a little more concrete, once that is all in your ~home.nix~ and ~./git~, run
+
+
+#+BEGIN_SRC shell-script
+  home-manager switch
+#+END_SRC
+
+
+and attempt to commit something to your favorite repo
+
+#+BEGIN_SRC shell-script
+  » git commit
+  Author identity unknown
+
+  *** Please tell me who you are.
+
+  Run
+
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+
+  to set your account's default identity.
+  Omit --global to set the identity only in this repository.
+
+  fatal: no email was given and auto-detection is disabled
+#+END_SRC
+
 
