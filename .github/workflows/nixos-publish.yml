@@ -13,19 +13,15 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  tests:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Nix Shell
-        # You may pin to the exact commit or the version.
-        # uses: workflow/nix-shell-action@608eb20401e12c82b204e8e2c6a8b0eebfb5407c
-        uses: cachix/install-nix-action@v16
-        run: nix --version
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v12
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - run: nix --version
