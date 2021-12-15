@@ -25,15 +25,9 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - run: |
-          mkdir ~/.ssh
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/key
-          cat >>~/.ssh/config <<END
-          Host pickard.cc
-              HostName pickard.cc
-              User $SSH_USER
-              IdentityFile ~/.ssh/key
-              StrictHostKeyChecking no
-          END
+          echo "Host pickard.cc\n  HostName pickard.cc\n  User $SSH_USER\n  IdentityFile ~/.ssh/key\n  StrictHostKeyChecking no" >> ~/.ssh/config
           mkdir -p ~/.config/nix/
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
           nix run github:serokell/deploy-rs
