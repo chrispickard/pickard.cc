@@ -25,6 +25,7 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - run: |
+          echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
           nix --version
           ls
           nix run github:serokell/deploy-rs
