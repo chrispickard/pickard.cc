@@ -24,4 +24,6 @@ jobs:
       - uses: cachix/install-nix-action@v12
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-      - run: scripts/deploy
+      - env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: scripts/deploy
