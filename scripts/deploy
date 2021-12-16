@@ -11,5 +11,5 @@ END
 cat ~/.ssh/config
 ssh pickard.cc echo hello
 mkdir -p ~/.config/nix/
-# echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 nix run github:serokell/deploy-rs
