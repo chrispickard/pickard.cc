@@ -1,6 +1,6 @@
 baseURL = "https://pickard.cc"
 languageCode = "en-us"
-title = "pickard.cc"
+title = "chris pickard's weblog"
 theme = "smol"
 pygmentsUseClasses = true
 pygmentsCodeFences = true

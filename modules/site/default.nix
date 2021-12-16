@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   name = "pickard.cc";
-  src = lib.cleanSource ./..;
+  src = lib.cleanSource ./.;
 
   nativeBuildInputs = [ hugo ];
 

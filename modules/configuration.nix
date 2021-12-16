@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  blog = pkgs.callPackage ./derivation.nix {
+  blog = pkgs.callPackage ./site/default.nix {
     lib = pkgs.lib;
     hugo = pkgs.hugo;
   };
