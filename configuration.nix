@@ -1,12 +1,17 @@
 { pkgs, ... }:
-let blog = pkgs.writeTextDir "/index.html" "hi there";
+
+let
+  blog = pkgs.callPackage ./derivation.nix {
+    lib = pkgs.lib;
+    hugo = pkgs.hugo;
+  };
 in {
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
-    ./host.nix
   ];
 
+  environment.systemPackages = with pkgs; [ vim ];
   boot.cleanTmpDir = true;
   networking.hostName = "bellona";
   services.openssh.enable = true;
@@ -19,9 +24,10 @@ in {
     virtualHosts."pickard.cc" = {
       forceSSL = true;
       enableACME = true;
-      root = "${blog}";
+      root = "${blog}/";
     };
   };
+  services.tailscale.enable = true;
   security.acme = {
     acceptTerms = true;
     certs = { "pickard.cc".email = "chrispickard9@gmail.com"; };
