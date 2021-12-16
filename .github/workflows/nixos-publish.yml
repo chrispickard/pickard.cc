@@ -28,6 +28,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/key
           echo "Host pickard.cc\n  HostName pickard.cc\n  User $SSH_USER\n  IdentityFile ~/.ssh/key\n  StrictHostKeyChecking no\n\n" >> ~/.ssh/config
+          cat ~/.ssh/config
           mkdir -p ~/.config/nix/
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
           nix run github:serokell/deploy-rs
