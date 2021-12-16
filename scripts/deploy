@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
 mkdir -p ~/.ssh
 echo -n "$SSH_PRIVATE_KEY" > ~/.ssh/key
 chmod 0600 ~/.ssh/key
 cat >>~/.ssh/config <<END
+
 Host pickard.cc
     User root
     IdentityFile ~/.ssh/key
     StrictHostKeyChecking no
 END
 cat ~/.ssh/config
+
 ssh pickard.cc echo hello
+
 mkdir -p ~/.config/nix/
 echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 nix run github:serokell/deploy-rs
