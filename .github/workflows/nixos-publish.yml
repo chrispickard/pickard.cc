@@ -27,6 +27,7 @@ jobs:
       - run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/key
+          chmod 0600 ~/.ssh/key
           echo -e "Host pickard.cc\n  HostName pickard.cc\n  User root\n  IdentityFile ~/.ssh/key\n  StrictHostKeyChecking no\n\n" >> ~/.ssh/config
           cat ~/.ssh/config
           mkdir -p ~/.config/nix/
