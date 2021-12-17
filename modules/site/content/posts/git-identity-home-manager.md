@@ -44,6 +44,7 @@ home-manager? It starts with a `home.nix` that contains at least
 `home.nix`:
 
 ``` nix
+
 { config, pkgs, ... }:
 
   # Let Home Manager install and manage itself.
@@ -82,9 +83,18 @@ file called `default.nix` from that directory.
 ``` nix
 { config, lib, pkgs, ... }:
 
-{
+let
+  # put a shell script into the nix store
+  gitIdentity =
+    pkgs.writeShellScriptBin "git-identity" (builtins.readFile ./git-identity);
+in {
   # we will use the excellent fzf in our `git-identity` script, so let's make sure it's available
-  home.packages = with pkgs; [ fzf ];
+  # let's add the gitIdentity script to the path as well
+  home.packages = with pkgs; [
+    gitIdentity
+    fzf
+  ];
+
   programs.git = {
     enable = true;
     extraConfig = {
@@ -108,21 +118,16 @@ file called `default.nix` from that directory.
     };
   };
 
-  home.file."bin/git-identity" = {
-    source = ./git-identity;
-    executable = true;
-  };
-
 }
 ```
 
 the `default.nix` relies on a script called `git-identity`
 
 ``` nix
-home.file."bin/git-identity" = {
-  source = ./git-identity;
-  executable = true;
-};
+let
+  gitIdentity =
+    pkgs.writeShellScriptBin "git-identity" (builtins.readFile ./git-identity);
+in {
 ```
 
 so let\'s go ahead and create it. It is also in the `./git` directory
