@@ -3,20 +3,6 @@ set -e
 set -u
 set -o pipefail
 
-mkdir -p ~/.ssh
-echo -n "$SSH_PRIVATE_KEY" > ~/.ssh/key
-chmod 0600 ~/.ssh/key
-cat >>~/.ssh/config <<EOF
-
-Host pickard.cc
-    User root
-    IdentityFile ~/.ssh/key
-    StrictHostKeyChecking no
-
-EOF
-
-cat ~/.ssh/config
-
 ssh pickard.cc echo hello
 
 mkdir -p ~/.config/nix/
