@@ -2,14 +2,31 @@
   description = "Deployment for my server cluster";
 
   # For accessing `deploy-rs`'s utility Nix functions
-  inputs.deploy-rs.url = "github:serokell/deploy-rs";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    utils.url = "github:numtide/flake-utils";
+    deploy-rs.url = "github:serokell/deploy-rs";
+    oxidized-endlessh = {
+      url = "github:chrispickard/oxidized-endlessh";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "utils";
+      };
+    };
+  };
 
-  outputs = { self, nixpkgs, deploy-rs }:
-    let system = "x86_64-linux";
+  outputs = inputs@{ self, nixpkgs, deploy-rs, oxidized-endlessh, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ oxidized-endlessh.overlay ];
+      };
     in {
       nixosConfigurations.bellona = nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit system pkgs;
         modules = [
+          oxidized-endlessh.nixosModules.oxidized-endlessh
           ./modules/hardware-configuration.nix
           ./modules/networking.nix
           ./modules/configuration.nix

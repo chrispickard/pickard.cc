@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ self, pkgs, ... }:
 
 let
   blog = pkgs.callPackage ./site/default.nix {
@@ -28,9 +28,13 @@ in {
     };
   };
   services.tailscale.enable = true;
+  services.oxidized-endlessh = {
+    enable = true;
+    opts.addrs = [ "0.0.0.0:2222" ];
+  };
   security.acme = {
     acceptTerms = true;
     certs = { "pickard.cc".email = "chrispickard9@gmail.com"; };
   };
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 2222 ];
 }
