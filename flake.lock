@@ -111,14 +111,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1640229818,
-        "narHash": "sha256-9l3e4tCzhg9bMgoCLdpz8UbZdJUY3mfmzf/IInLLXcU=",
-        "type": "git",
-        "url": "file:///home/chrispickard/dev/rs/oxidized-endlessh"
+        "lastModified": 1640230796,
+        "narHash": "sha256-Jdc2gk2c2PqY6o9OaMyyeg43rpf3yRhm1OmpKl0ZSGU=",
+        "owner": "chrispickard",
+        "repo": "oxidized-endlessh",
+        "rev": "231b3612ee7a1c7bd26e4f56eddfd420d99bfcde",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/chrispickard/dev/rs/oxidized-endlessh"
+        "owner": "chrispickard",
+        "repo": "oxidized-endlessh",
+        "type": "github"
       }
     },
     "root": {
