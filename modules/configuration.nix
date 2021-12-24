@@ -11,7 +11,7 @@ in {
     ./networking.nix # generated at runtime by nixos-infect
   ];
 
-  environment.systemPackages = with pkgs; [ vim ];
+  environment.systemPackages = with pkgs; [ vim grafana-agent ];
   boot.cleanTmpDir = true;
   networking.hostName = "bellona";
   services.openssh.enable = true;
@@ -27,6 +27,21 @@ in {
       root = "${blog}/";
     };
   };
+  nix = {
+    # Automatic Nix GC.
+    gc = {
+      automatic = true;
+      dates = "04:00";
+      options = "--delete-older-than 30d";
+    };
+    extraOptions = ''
+      min-free = ${toString (500 * 1024 * 1024)}
+    '';
+
+    # Automatic store optimization.
+    autoOptimiseStore = true;
+  };
+
   services.tailscale.enable = true;
   services.oxidized-endlessh = {
     enable = true;
