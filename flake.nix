@@ -6,6 +6,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     utils.url = "github:numtide/flake-utils";
     deploy-rs.url = "github:serokell/deploy-rs";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     oxidized-endlessh = {
       url = "github:chrispickard/oxidized-endlessh";
       inputs = {
@@ -15,7 +19,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, deploy-rs, oxidized-endlessh, ... }:
+  outputs = inputs@{ self, nixpkgs, deploy-rs, agenix, oxidized-endlessh, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -30,8 +34,10 @@
           ./modules/hardware-configuration.nix
           ./modules/networking.nix
           ./modules/configuration.nix
+          agenix.nixosModules.age
         ];
       };
+
 
       deploy.nodes.bellona = {
         hostname = "pickard.cc";
@@ -43,6 +49,12 @@
         };
       };
 
+             devShell.x86_64-linux = pkgs.mkShell {
+        buildInputs = [
+          deploy-rs.packages.x86_64-linux.deploy-rs
+          agenix.packages.x86_64-linux.agenix
+        ];
+      };
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs
         (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
