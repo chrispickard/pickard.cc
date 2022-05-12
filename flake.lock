@@ -20,10 +20,46 @@
         "type": "github"
       }
     },
+    "agenix-cli": {
+      "inputs": {
+        "crate2nix": "crate2nix",
+        "mozilla": "mozilla",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1640369392,
+        "narHash": "sha256-J0wS3BY+kD1QotA/wjWsL2eKZ9T83s/nq6MPUovrzbs=",
+        "owner": "cole-h",
+        "repo": "agenix-cli",
+        "rev": "73e07332451acc465bc59785db259b0b0e81dc8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cole-h",
+        "repo": "agenix-cli",
+        "type": "github"
+      }
+    },
+    "crate2nix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1636316693,
+        "narHash": "sha256-WAxxfqPcFY2SFkgbUMnxMAIj3WbFf7Kw3622rYcz22I=",
+        "owner": "kolloch",
+        "repo": "crate2nix",
+        "rev": "d0c00673bafbaa648e84fb7595a0e4cd84c3b18a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kolloch",
+        "repo": "crate2nix",
+        "type": "github"
+      }
+    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "utils": "utils"
       },
       "locked": {
@@ -56,9 +92,25 @@
         "type": "github"
       }
     },
+    "mozilla": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1637337116,
+        "narHash": "sha256-LKqAcdL+woWeYajs02bDQ7q8rsqgXuzhC354NoRaV80=",
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "rev": "cbc7435f5b0b3d17b16fb1d20cf7b616eec5e093",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "type": "github"
+      }
+    },
     "naersk": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1639947939,
@@ -76,6 +128,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1638371214,
+        "narHash": "sha256-0kE6KhgH7n0vyuX4aUoGsGIQOqjIx2fJavpCWtn73rc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a640d8394f34714578f3e6335fc767d0755d78f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-21.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1632086102,
         "narHash": "sha256-wVTcf0UclFS+zHtfPToB13jIO7n0U9N50MuRbPjQViE=",
         "owner": "NixOS",
@@ -90,7 +158,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1640139330,
         "narHash": "sha256-Nkp3wUOGwtoQ7EH28RLVJ7EqB/e0TU7VcsM7GLy+SdY=",
@@ -106,7 +174,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1640090545,
         "narHash": "sha256-6qiF46uBGoSQmjDTFl8ilT+d1DuK39IRHlj0jE5gqZE=",
@@ -147,8 +215,9 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "agenix-cli": "agenix-cli",
         "deploy-rs": "deploy-rs",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "oxidized-endlessh": "oxidized-endlessh",
         "utils": "utils_2"
       }

@@ -5,4 +5,5 @@ let
 in
 {
   "grafana-agent.age".publicKeys = systems;
+  "grafana-api-key.age".publicKeys = systems;
 }

@@ -5,47 +5,13 @@ let
     lib = pkgs.lib;
     hugo = pkgs.hugo;
   };
-  age.secrets.grafana-agent.file = ../secrets/grafana-agent.age;
-  grafana-agent-config = pkgs.writeText "agent-config.yaml" ''
-integrations:
-  node_exporter:
-    enabled: true
-  prometheus_remote_write:
-    - basic_auth:
-        password: ${GRAFANA_API_KEY}
-        username: 285788
-      url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
-loki:
-  configs:
-    - clients:
-        - basic_auth:
-            password: ${GRAFANA_API_KEY}
-            username: 141865
-          url: https://logs-prod-us-central1.grafana.net/api/prom/push
-      name: integrations
-      positions:
-        filename: /tmp/positions.yaml
-      target_config:
-        sync_period: 10s
-prometheus:
-  configs:
-    - name: integrations
-      remote_write:
-        - basic_auth:
-            password: ${GRAFANA_API_KEY}
-            username: 285788
-          url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
-  global:
-    scrape_interval: 60s
-  wal_directory: /tmp/grafana-agent-wal
-server:
-  http_listen_port: 12345
-    '';
 in {
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
   ];
+
+  age.secrets.grafana-agent.file = ../secrets/grafana-agent.age;
 
   environment.systemPackages = with pkgs; [ vim ];
   boot.cleanTmpDir = true;
@@ -94,7 +60,7 @@ in {
       after = [ "network.target" ];
       description = "run the grafana agent";
       serviceConfig = {
-        ExecStart = ''${pkgs.grafana-agent}/bin/agent --config.file ${grafana-agent-config}'';         
+        ExecStart = ''${pkgs.grafana-agent}/bin/agent --config.file ${config.age.secrets.grafana-agent.path}'';
         Restart = "on-failure";
       };
    };

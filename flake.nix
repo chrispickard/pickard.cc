@@ -10,6 +10,7 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix-cli = { url = "github:cole-h/agenix-cli"; };
     oxidized-endlessh = {
       url = "github:chrispickard/oxidized-endlessh";
       inputs = {
@@ -24,20 +25,24 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ oxidized-endlessh.overlay ];
+        overlays = [
+          oxidized-endlessh.overlay
+          (final: prev: {
+            agenix = inputs.agenix-cli.defaultPackage.${system};
+          })
+        ];
       };
     in {
       nixosConfigurations.bellona = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
           oxidized-endlessh.nixosModules.oxidized-endlessh
+          agenix.nixosModules.age
           ./modules/hardware-configuration.nix
           ./modules/networking.nix
           ./modules/configuration.nix
-          agenix.nixosModules.age
         ];
       };
-
 
       deploy.nodes.bellona = {
         hostname = "pickard.cc";
@@ -49,11 +54,8 @@
         };
       };
 
-             devShell.x86_64-linux = pkgs.mkShell {
-        buildInputs = [
-          deploy-rs.packages.x86_64-linux.deploy-rs
-          agenix.packages.x86_64-linux.agenix
-        ];
+      devShell.x86_64-linux = pkgs.mkShell {
+        buildInputs = [ deploy-rs.packages.x86_64-linux.deploy-rs ];
       };
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs
