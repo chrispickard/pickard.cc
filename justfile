@@ -9,5 +9,8 @@ new-post post:
 serve:
   cd {{hugo_dir}} && hugo server
 
+serve-drafts:
+  cd {{hugo_dir}} && hugo server -D
+
 deploy:
   scripts/deploy
