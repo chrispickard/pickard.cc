@@ -3,10 +3,10 @@ html {
 }
 
 body {
-    max-width: 800px;
+    max-width: 1024px;
     margin: 40px auto;
     padding: 0 10px;
-    font: 22px/1.5 monospace;
+    font: 18px/1.5 monospace;
     color: white;
     background: black;
 }

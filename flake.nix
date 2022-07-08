@@ -55,7 +55,8 @@
       };
 
       devShell.x86_64-linux = pkgs.mkShell {
-        buildInputs = [ deploy-rs.packages.x86_64-linux.deploy-rs ];
+        buildInputs =
+          [ deploy-rs.packages.x86_64-linux.deploy-rs pkgs.hugo pkgs.just ];
       };
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs

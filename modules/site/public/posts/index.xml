@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on pickard.cc</title>
+    <title>Posts on chris pickard&#39;s weblog</title>
     <link>https://pickard.cc/posts/</link>
-    <description>Recent content in Posts on pickard.cc</description>
+    <description>Recent content in Posts on chris pickard&#39;s weblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Apr 2021 21:29:49 -0400</lastBuildDate><atom:link href="https://pickard.cc/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Dec 2021 15:52:06 -0500</lastBuildDate><atom:link href="https://pickard.cc/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Test Post</title>
-      <link>https://pickard.cc/posts/test-post/</link>
-      <pubDate>Thu, 01 Apr 2021 21:29:49 -0400</pubDate>
+      <title>multiple git identities with home-manager and fzf</title>
+      <link>https://pickard.cc/posts/git-identity-home-manager/</link>
+      <pubDate>Wed, 15 Dec 2021 15:52:06 -0500</pubDate>
       
-      <guid>https://pickard.cc/posts/test-post/</guid>
-      <description>this is a post. this is in monospace
-package main import &amp;#34;fmt&amp;#34; func main() { fmt.Println(&amp;#34;hello, world&amp;#34;) } </description>
+      <guid>https://pickard.cc/posts/git-identity-home-manager/</guid>
+      <description>If you have multiple git identities (a personal and a work email, say) and would like to use both in different projects on the same machine it can be a hassle. Hopefully you&#39;ve never committed to your work repo with your personal email address! If this happens you&#39;re looking at an unwieldy git filter-branch invocation to fix it.
+To avoid the issue in the future you can use a feature of git called conditional includes, but I still find them easy to forget to include in each repo that needs a different identity (and I don&#39;t use a separate ~/dev/work and ~/dev/personal so there isn&#39;t a good place to set and forget them).</description>
     </item>
     
   </channel>

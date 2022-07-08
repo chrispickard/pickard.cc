@@ -1,2 +1,5 @@
 .idea/
 /public/
+/.direnv/
+/.envrc
+.hugo_build.lock
