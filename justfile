@@ -14,3 +14,6 @@ serve-drafts:
 
 deploy:
   scripts/deploy
+
+update:
+  nix flake update
