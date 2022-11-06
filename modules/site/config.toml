@@ -22,3 +22,10 @@ weight = 1
 name = "twitter"
 url = "https://twitter.com/chrispickard9"
 weight = 2
+
+[[menu.footer]]
+name = "mastodon"
+url = "https://hachyderm.io/@chrispickard"
+weight = 3
+[menu.footer.params]
+extra = 'rel="me"'
