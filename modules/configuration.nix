@@ -51,7 +51,7 @@ in {
   services.tailscale.enable = true;
   services.oxidized-endlessh = {
     enable = true;
-    opts.addrs = [ "0.0.0.0:2222" ];
+    opts.addrs = [ "[::]:2222" ];
   };
   security.acme = {
     acceptTerms = true;
