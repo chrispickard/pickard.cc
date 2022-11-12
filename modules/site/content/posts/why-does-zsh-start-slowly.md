@@ -1,5 +1,5 @@
 ---
-title: "why does zsh start slowly"
+title: "why does zsh start slowly?"
 date: 2022-11-12T16:22:03-05:00
 ---
 
