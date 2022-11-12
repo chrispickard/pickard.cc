@@ -55,7 +55,7 @@
         };
       };
 
-      devShell.x86_64-linux = pkgs.mkShell {
+      devShells.x86_64-linux.default = pkgs.mkShell {
         buildInputs =
           [ deploy-rs.packages.x86_64-linux.deploy-rs pkgs.hugo pkgs.just ];
       };
