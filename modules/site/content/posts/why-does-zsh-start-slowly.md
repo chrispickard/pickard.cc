@@ -14,7 +14,7 @@ to validate that it _is_ slow; we need to profile!
 
 Almost everything I know about profiling `zsh` came from Steven Van Bael's article on [Profiling zsh
 startup time](https://stevenvanbael.com/profiling-zsh-startup). You should hop over there and read
-the article for more, but the tl;dr is to add `zmodload zsh/zprof` add the very top of your `~/.
+the article for more, but the tl;dr is to add `zmodload zsh/zprof` at the very top of your `~/.
 zshrc` and `zprof` to the very bottom, then restart the shell. On startup, you will see a table with
 everything impacting your shell startup time. When I profiled my shell, many of the worst offenders
 came from those frameworks and the plugins they bundle. This was several years ago, and they may
