@@ -63,6 +63,7 @@ solve](https://twitter.com/codinghorror/status/506010907021828096).
 
 ### Conclusion
 
-Today we learned about profiling and common antipatterns that can slow down shell startup. Next
-time we will learn how to fix our issues with cache invalidation that leave us open to incorrect
+Today we learned about profiling and common antipatterns that can slow down shell startup. [Next
+time](../home-manager-the-best-zsh-framework) we will learn how to fix our issues with cache 
+invalidation that leave us open to incorrect
 completions in our shell and the framework I use to solve these problems.
