@@ -13,8 +13,6 @@ in {
 
   system.stateVersion = "22.11";
 
-  age.secrets.grafana-agent.file = ../secrets/grafana-agent.age;
-
   environment.systemPackages = with pkgs; [ vim ];
   boot.cleanTmpDir = true;
   networking.hostName = "bellona";
@@ -30,6 +28,11 @@ in {
       forceSSL = true;
       enableACME = true;
       root = "${blog}/";
+    };
+    virtualHosts."danielleandchris.rsvp" = {
+      forceSSL = true;
+      enableACME = true;
+      globalRedirect = "danielleandchris052823.minted.us";
     };
   };
   nix = {
@@ -56,19 +59,10 @@ in {
   security.acme = {
     acceptTerms = true;
     certs = { "pickard.cc".email = "chrispickard9@gmail.com"; };
+    certs = { "danielleandchris.rsvp".email = "chrispickard9@gmail.com"; };
   };
   networking.firewall = {
     allowedTCPPorts = [ 80 443 2222 ];
     checkReversePath = "loose";
-  };
-  systemd.services.grafana-agent = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    description = "run the grafana agent";
-    serviceConfig = {
-      ExecStart =
-        "${pkgs.grafana-agent}/bin/agent --config.file ${config.age.secrets.grafana-agent.path}";
-      Restart = "on-failure";
-    };
   };
 }
