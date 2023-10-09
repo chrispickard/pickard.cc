@@ -5,7 +5,8 @@ let
     lib = pkgs.lib;
     hugo = pkgs.hugo;
   };
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
@@ -16,7 +17,9 @@ in {
   environment.systemPackages = with pkgs; [ vim ];
   boot.cleanTmpDir = true;
   networking.hostName = "bellona";
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+  };
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINrmYV5SN6zwFKC/eSg4ochOrb0F6XkzHYT+2lzv5ej8 chris.pickard@tangramflex.com"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE6yCtIHyPSpb+bF+eluLXfXEBRlpXWIgEhfteQcEamU chrispickard9@gmail.com"
@@ -30,6 +33,11 @@ in {
       root = "${blog}/";
     };
     virtualHosts."danielleandchris.rsvp" = {
+      forceSSL = true;
+      enableACME = true;
+      globalRedirect = "danielleandchris052823.minted.us";
+    };
+    virtualHosts."www.danielleandchris.rsvp" = {
       forceSSL = true;
       enableACME = true;
       globalRedirect = "danielleandchris052823.minted.us";
@@ -60,6 +68,7 @@ in {
     acceptTerms = true;
     certs = { "pickard.cc".email = "chrispickard9@gmail.com"; };
     certs = { "danielleandchris.rsvp".email = "chrispickard9@gmail.com"; };
+    certs = { "www.danielleandchris.rsvp".email = "chrispickard9@gmail.com"; };
   };
   networking.firewall = {
     allowedTCPPorts = [ 80 443 2222 ];

@@ -3,10 +3,10 @@ set -e
 set -u
 set -o pipefail
 
-mkdir -p ~/.ssh
-echo -e "Host pickard.cc\n  HostName pickard.cc\n  User root\n  StrictHostKeyChecking no\n\n" >> ~/.ssh/config
+# mkdir -p ~/.ssh
+# echo -e "Host pickard.cc\n  HostName pickard.cc\n  User root\n  StrictHostKeyChecking no\n\n" >> ~/.ssh/config
 
-ssh pickard.cc echo hello
-mkdir -p ~/.config/nix/
-echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+# ssh pickard.cc echo hello
+# mkdir -p ~/.config/nix/
+# echo "experimental-features = nix-command flakes" >>~/.config/nix/nix.conf
 nix run github:serokell/deploy-rs
