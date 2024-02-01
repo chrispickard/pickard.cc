@@ -6,7 +6,34 @@
     <description>Recent content on chris pickard&#39;s weblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Dec 2021 15:52:06 -0500</lastBuildDate><atom:link href="https://pickard.cc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Dec 2022 18:46:35 -0500</lastBuildDate><atom:link href="https://pickard.cc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>moving to mastodon</title>
+      <link>https://pickard.cc/posts/moving-to-mastodon/</link>
+      <pubDate>Mon, 19 Dec 2022 18:46:35 -0500</pubDate>
+      
+      <guid>https://pickard.cc/posts/moving-to-mastodon/</guid>
+      <description>I&amp;rsquo;m now on hachyderm and no longer engaging on twitter. I&amp;rsquo;ve had a twitter habit for too long anyway. Now that Elon has fully taken over, reinstated nazis, fired everyone worth a damn and generally caused mayhem and destruction, I&amp;rsquo;m out. I should have left long ago but better late than never. find me on hachyderm.io/@chrispickard</description>
+    </item>
+    
+    <item>
+      <title>why does zsh start so slowly?</title>
+      <link>https://pickard.cc/posts/why-does-zsh-start-slowly/</link>
+      <pubDate>Sat, 12 Nov 2022 16:22:03 -0500</pubDate>
+      
+      <guid>https://pickard.cc/posts/why-does-zsh-start-slowly/</guid>
+      <description>I&amp;rsquo;m serious about shell startup speed. I use tmux to open and close tmux splits all day every day, so I need zsh to start quickly. I used to use frameworks like oh-my-zsh or prezto and while I was happy with the functionality they provided I wasn&amp;rsquo;t happy with their impact on my shell&amp;rsquo;s startup speed. So, what do we do about it? The first step when something feels slow is to validate that it is slow; we need to profile!</description>
+    </item>
+    
+    <item>
+      <title>just a project command center</title>
+      <link>https://pickard.cc/posts/just-a-project-command-center/</link>
+      <pubDate>Fri, 08 Jul 2022 18:52:39 -0400</pubDate>
+      
+      <guid>https://pickard.cc/posts/just-a-project-command-center/</guid>
+      <description>I used to use the venerable make(1) as my project command runner. I would cd into a project I hadn&amp;rsquo;t touched in awhile, run make test and be off to the races. I didn&amp;rsquo;t have to remember whether we used nose or pytest or whether this was a go project or node. make test would do the right thing. As a person who often has several balls in the air across several different ecosystems this is invaluable.</description>
+    </item>
+    
     <item>
       <title>multiple git identities with home-manager and fzf</title>
       <link>https://pickard.cc/posts/git-identity-home-manager/</link>

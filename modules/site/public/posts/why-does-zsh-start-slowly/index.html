@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>why does zsh start so slowly?</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/override.css">
+	
+	
+</head>
+<body>
+	<header>
+	<p>
+	<nav>
+	  <a href="https://pickard.cc">Home</a>
+	  <span style="float: right;">chris pickard&#39;s weblog</span>
+		
+</header>
+
+	
+	<main>
+		<article>
+			<h1>why does zsh start so slowly?</h1>
+			<b><time>11.12.2022</time></b>
+		       
+
+			<div>
+				<p>I&rsquo;m serious about shell startup speed. I use <a href="https://github.com/tmux/tmux">tmux</a> to open and
+close tmux splits all day every day, so I need <code>zsh</code> to start quickly. I used to use frameworks
+like <a href="https://ohmyz.sh/">oh-my-zsh</a> or <a href="https://github.com/sorin-ionescu/prezto">prezto</a> and
+while I was happy with the functionality they provided I wasn&rsquo;t happy with their impact on my
+shell&rsquo;s startup speed. So, what do we do about it? The first step when something <em>feels</em> slow is
+to validate that it <em>is</em> slow; we need to profile!</p>
+<h3 id="profiling">Profiling</h3>
+<p>Almost everything I know about profiling <code>zsh</code> came from Steven Van Bael&rsquo;s article on <a href="https://stevenvanbael.com/profiling-zsh-startup">Profiling zsh
+startup time</a>. You should hop over there and read
+the article for more, but the tl;dr is to add <code>zmodload zsh/zprof</code> at the very top of your <code>~/. zshrc</code> and <code>zprof</code> to the very bottom, then restart the shell. On startup, you will see a table with
+everything impacting your shell startup time. When I profiled my shell, many of the worst offenders
+came from those frameworks and the plugins they bundle. This was several years ago, and they may
+have refactored in the years since, so you should always profile before making changes and then
+profile again at each step. Allow the profile to guide you! When you are done profiling, simply
+remove <code>zmodload zsh/zprof</code> and <code>zprof</code> from your <code>~/.zshrc</code>.</p>
+<h3 id="the-problem">The Problem</h3>
+<p>So, why is <code>zsh</code> slow to start in the first place? if you run <code>zsh -i -d -f -l</code> which gives you an
+interactive login shell without interpreting your <code>~/.zshrc</code>, you&rsquo;ll see that <code>zsh</code> starts nearly
+instantaneously, though without any customizations. The biggest culprit that slows down <code>zsh</code>
+startup is forcing zsh to source the output of a command. So, for example, if you look at the
+kubernetes docs on how to set up <a href="https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-zsh/">kubectl zsh
+autocompletion</a>,
+you&rsquo;ll see that they recommend you run</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> <span class="nb">source</span> &lt;<span class="o">(</span>kubectl completion zsh<span class="o">)</span> 
+</span></span></code></pre></div><p>This is an antipattern. On my machine running <code>time kubectl completion zsh</code> takes 130ms! I want my
+shell to start in well under 100ms and running just one binary already blew that budget. <code>zsh</code>
+<em>cannot</em> cache this because to the shell it&rsquo;s a dynamic output that could change at any time.
+Often, this is how plugins in typical frameworks work, they find and load the plugins they need
+at runtime, rather than allowing them to be cached as static files.</p>
+<h3 id="the-solution-sorta">The Solution (sorta!)</h3>
+<p>Since <code>zsh</code> can&rsquo;t cache a dynamic binary what should we do? Make it a static file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> mkdir -p ~/.zsh/plugins/kubectl/
+</span></span><span class="line"><span class="cl"> kubectl completion zsh &gt; ~/.zsh/plugins/kubectl/_kubectl
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> <span class="c1"># in ~/.zshrc</span>
+</span></span><span class="line"><span class="cl"> autoload -U compinit <span class="o">&amp;&amp;</span> compinit <span class="c1"># loads the zsh completion initialization module, only </span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># do this once, if you are already loading completions you don&#39;t need to add this again</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">source</span> ~/.zsh/plugins/kubectl/_kubectl <span class="c1"># this loads the completion</span>
+</span></span></code></pre></div><p>Now that the completion is just a file it&rsquo;s easy for <code>zsh</code> to cache. There is a downside to this
+approach though, what happens when kubectl adds new options or changes their completion? Thankfully
+cache invalidation is a <a href="https://twitter.com/codinghorror/status/506010907021828096">famously easy problem to
+solve</a>.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Today we learned about profiling and common antipatterns that can slow down shell startup. <a href="../home-manager-the-best-zsh-framework">Next
+time</a> we will learn how to fix our issues with cache
+invalidation that leave us open to incorrect
+completions in our shell and the framework I use to solve these problems.</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/moving-to-mastodon/">moving to mastodon</a></li>
+				
+				<li><a href="/posts/why-does-zsh-start-slowly/">why does zsh start so slowly?</a></li>
+				
+				<li><a href="/posts/just-a-project-command-center/">just a project command center</a></li>
+				
+				<li><a href="/posts/git-identity-home-manager/">multiple git identities with home-manager and fzf</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2024 <a href="https://pickard.cc"><b>chris pickard&#39;s weblog</b></a>.
+	<a  href="https://github.com/chrispickard"><b>github</b></a>.
+	<a  href="https://twitter.com/chrispickard9"><b>twitter</b></a>.
+	<a rel="me" href="https://hachyderm.io/@chrispickard"><b>mastodon</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

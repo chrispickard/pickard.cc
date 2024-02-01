@@ -32,16 +32,6 @@ in
       enableACME = true;
       root = "${blog}/";
     };
-    virtualHosts."danielleandchris.rsvp" = {
-      forceSSL = true;
-      enableACME = true;
-      globalRedirect = "danielleandchris052823.minted.us";
-    };
-    virtualHosts."www.danielleandchris.rsvp" = {
-      forceSSL = true;
-      enableACME = true;
-      globalRedirect = "danielleandchris052823.minted.us";
-    };
   };
   nix = {
     # Automatic Nix GC.
@@ -67,8 +57,6 @@ in
   security.acme = {
     acceptTerms = true;
     certs = { "pickard.cc".email = "chrispickard9@gmail.com"; };
-    certs = { "danielleandchris.rsvp".email = "chrispickard9@gmail.com"; };
-    certs = { "www.danielleandchris.rsvp".email = "chrispickard9@gmail.com"; };
   };
   networking.firewall = {
     allowedTCPPorts = [ 80 443 2222 ];

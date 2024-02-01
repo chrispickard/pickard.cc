@@ -66,116 +66,115 @@ atomic upgrades and painless rollbacks.</p>
 of the git config in Henning's blog post with the git support in
 home-manager? It starts with a <code>home.nix</code> that contains at least</p>
 <p><code>home.nix</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix">
-<span class="p">{</span> <span class="n">config</span><span class="o">,</span> <span class="n">pkgs</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
-
-  <span class="c1"># Let Home Manager install and manage itself.</span>
-  <span class="n">programs</span><span class="o">.</span><span class="n">home-manager</span><span class="o">.</span><span class="n">enable</span> <span class="err">=</span> <span class="no">true</span><span class="p">;</span>
-  <span class="n">targets</span><span class="o">.</span><span class="n">genericLinux</span><span class="o">.</span><span class="n">enable</span> <span class="err">=</span> <span class="no">true</span><span class="p">;</span>
-
-  <span class="n">imports</span> <span class="err">=</span> <span class="p">[</span>
-    <span class="sr">./git</span>
-  <span class="p">];</span>
-  <span class="c1"># This value determines the Home Manager release that your</span>
-  <span class="c1"># configuration is compatible with. This helps avoid breakage</span>
-  <span class="c1"># when a new Home Manager release introduces backwards</span>
-  <span class="c1"># incompatible changes.</span>
-  <span class="c1">#</span>
-  <span class="c1"># You can update Home Manager without changing this value. See</span>
-  <span class="c1"># the Home Manager release notes for a list of state version</span>
-  <span class="c1"># changes in each release.</span>
-  <span class="n">home</span><span class="o">.</span><span class="n">stateVersion</span> <span class="err">=</span> <span class="s2">&#34;20.03&#34;</span><span class="p">;</span>
-<span class="err">}</span>
-
-</code></pre></div><p>The important piece here is:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="n">imports</span> <span class="err">=</span> <span class="p">[</span>
-  <span class="sr">./git</span>
-<span class="p">];</span>
-</code></pre></div><p>when you import <code>./git</code> in your <code>home.nix</code> it will attempt to import the
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">config</span><span class="o">,</span> <span class="n">pkgs</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Let Home Manager install and manage itself.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">programs</span><span class="o">.</span><span class="n">home-manager</span><span class="o">.</span><span class="n">enable</span> <span class="err">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">targets</span><span class="o">.</span><span class="n">genericLinux</span><span class="o">.</span><span class="n">enable</span> <span class="err">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">imports</span> <span class="err">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="sr">./git</span>
+</span></span><span class="line"><span class="cl">  <span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># This value determines the Home Manager release that your</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># configuration is compatible with. This helps avoid breakage</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># when a new Home Manager release introduces backwards</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># incompatible changes.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># You can update Home Manager without changing this value. See</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># the Home Manager release notes for a list of state version</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># changes in each release.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">home</span><span class="o">.</span><span class="n">stateVersion</span> <span class="err">=</span> <span class="s2">&#34;20.03&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span></code></pre></div><p>The important piece here is:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="n">imports</span> <span class="err">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="sr">./git</span>
+</span></span><span class="line"><span class="cl"><span class="p">];</span>
+</span></span></code></pre></div><p>when you import <code>./git</code> in your <code>home.nix</code> it will attempt to import the
 file called <code>default.nix</code> from that directory.</p>
 <p><code>git/default.nix</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="p">{</span> <span class="n">config</span><span class="o">,</span> <span class="n">lib</span><span class="o">,</span> <span class="n">pkgs</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
-
-<span class="k">let</span>
-  <span class="c1"># put a shell script into the nix store</span>
-  <span class="n">gitIdentity</span> <span class="o">=</span>
-    <span class="n">pkgs</span><span class="o">.</span><span class="n">writeShellScriptBin</span> <span class="s2">&#34;git-identity&#34;</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span><span class="n">readFile</span> <span class="sr">./git-identity</span><span class="p">);</span>
-<span class="k">in</span> <span class="p">{</span>
-  <span class="c1"># we will use the excellent fzf in our `git-identity` script, so let&#39;s make sure it&#39;s available</span>
-  <span class="c1"># let&#39;s add the gitIdentity script to the path as well</span>
-  <span class="n">home</span><span class="o">.</span><span class="n">packages</span> <span class="o">=</span> <span class="k">with</span> <span class="n">pkgs</span><span class="p">;</span> <span class="p">[</span>
-    <span class="n">gitIdentity</span>
-    <span class="n">fzf</span>
-  <span class="p">];</span>
-
-  <span class="n">programs</span><span class="o">.</span><span class="n">git</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-    <span class="n">extraConfig</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="c1"># extremely important, otherwise git will attempt to guess a default user identity. see `man git-config` for more details</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">useConfigOnly</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-
-      <span class="c1"># the `work` identity</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">work</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Spider-Man&#34;</span><span class="p">;</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">work</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&#34;friendlyspidey@neighborhood.com&#34;</span><span class="p">;</span>
-
-      <span class="c1"># the `personal` identity</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">personal</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Peter Parker&#34;</span><span class="p">;</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">personal</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&#34;peter@parker.com&#34;</span><span class="p">;</span>
-      <span class="c1"># I think spider-man might be peter parker! somebody get j jonah jameson on the line</span>
-    <span class="p">};</span>
-    <span class="c1"># This is optional, as `git identity` will call the `git-identity` script by itself, however</span>
-    <span class="c1"># setting it up explicitly as an alias gives you autocomplete</span>
-    <span class="n">aliases</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="n">identity</span> <span class="o">=</span> <span class="s2">&#34;! git-identity&#34;</span><span class="p">;</span>
-      <span class="n">id</span> <span class="o">=</span> <span class="s2">&#34;! git-identity&#34;</span><span class="p">;</span>
-    <span class="p">};</span>
-  <span class="p">};</span>
-
-<span class="p">}</span>
-</code></pre></div><p>the <code>default.nix</code> relies on a script called <code>git-identity</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="k">let</span>
-  <span class="n">gitIdentity</span> <span class="o">=</span>
-    <span class="n">pkgs</span><span class="o">.</span><span class="n">writeShellScriptBin</span> <span class="s2">&#34;git-identity&#34;</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span><span class="n">readFile</span> <span class="sr">./git-identity</span><span class="p">);</span>
-<span class="k">in</span> <span class="p">{</span>
-</code></pre></div><p>so let's go ahead and create it. It is also in the <code>./git</code> directory</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="p">{</span> <span class="n">config</span><span class="o">,</span> <span class="n">lib</span><span class="o">,</span> <span class="n">pkgs</span><span class="o">,</span> <span class="o">...</span> <span class="p">}:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># put a shell script into the nix store</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gitIdentity</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pkgs</span><span class="o">.</span><span class="n">writeShellScriptBin</span> <span class="s2">&#34;git-identity&#34;</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span><span class="n">readFile</span> <span class="sr">./git-identity</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">in</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># we will use the excellent fzf in our `git-identity` script, so let&#39;s make sure it&#39;s available</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># let&#39;s add the gitIdentity script to the path as well</span>
+</span></span><span class="line"><span class="cl">  <span class="n">home</span><span class="o">.</span><span class="n">packages</span> <span class="o">=</span> <span class="k">with</span> <span class="n">pkgs</span><span class="p">;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gitIdentity</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fzf</span>
+</span></span><span class="line"><span class="cl">  <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">programs</span><span class="o">.</span><span class="n">git</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">extraConfig</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1"># extremely important, otherwise git will attempt to guess a default user identity. see `man git-config` for more details</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">useConfigOnly</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># the `work` identity</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">work</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Spider-Man&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">work</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&#34;friendlyspidey@neighborhood.com&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># the `personal` identity</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">personal</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Peter Parker&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">personal</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&#34;peter@parker.com&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1"># I think spider-man might be peter parker! somebody get j jonah jameson on the line</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># This is optional, as `git identity` will call the `git-identity` script by itself, however</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># setting it up explicitly as an alias gives you autocomplete</span>
+</span></span><span class="line"><span class="cl">    <span class="n">aliases</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">identity</span> <span class="o">=</span> <span class="s2">&#34;! git-identity&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">id</span> <span class="o">=</span> <span class="s2">&#34;! git-identity&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>the <code>default.nix</code> relies on a script called <code>git-identity</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nix" data-lang="nix"><span class="line"><span class="cl"><span class="k">let</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gitIdentity</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pkgs</span><span class="o">.</span><span class="n">writeShellScriptBin</span> <span class="s2">&#34;git-identity&#34;</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span><span class="n">readFile</span> <span class="sr">./git-identity</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">in</span> <span class="p">{</span>
+</span></span></code></pre></div><p>so let's go ahead and create it. It is also in the <code>./git</code> directory</p>
 <p><code>git/git-identity</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/usr/bin/env bash
-</span><span class="cp"></span>
-<span class="c1"># get each set of usernames from the git config (which will be generated from our `default.nix` above)</span>
-<span class="nv">IDENTITIES</span><span class="o">=</span><span class="k">$(</span>git config --global --name-only --get-regexp <span class="s2">&#34;user.*..name&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s/^user.//&#39;</span> -e <span class="s1">&#39;s/.name$//&#39;</span><span class="k">)</span>
-<span class="c1"># filter them with fzf</span>
-<span class="nv">ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">IDENTITIES</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> fzf -e -1 +m -q <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span><span class="k">)</span>
-<span class="k">if</span> ! git config --global --get-regexp <span class="s2">&#34;user.</span><span class="si">${</span><span class="nv">ID</span><span class="si">}</span><span class="s2">.name&#34;</span> &gt; /dev/null<span class="p">;</span> <span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&#34;Please use a valid git identity
-</span><span class="s2">Options:&#34;</span>
-    git config --global --name-only --get-regexp <span class="s2">&#34;user.*..name&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s/^user.//&#39;</span> -e <span class="s1">&#39;s/.name$//&#39;</span> -e <span class="s1">&#39;s/^/\t/&#39;</span>
-    <span class="nb">exit</span> <span class="m">1</span>
-<span class="k">fi</span>
-<span class="c1"># set the ID locally in each repo (eg in the repo&#39;s .git/config)</span>
-git config user.name <span class="s2">&#34;</span><span class="k">$(</span>git config user.<span class="si">${</span><span class="nv">ID</span><span class="si">}</span>.name<span class="k">)</span><span class="s2">&#34;</span>
-git config user.email <span class="s2">&#34;</span><span class="k">$(</span>git config user.<span class="si">${</span><span class="nv">ID</span><span class="si">}</span>.email<span class="k">)</span><span class="s2">&#34;</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Name: </span><span class="k">$(</span>git config user.name<span class="k">)</span><span class="s2">&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;Email: </span><span class="k">$(</span>git config user.email<span class="k">)</span><span class="s2">&#34;</span>
-</code></pre></div><p>To make that all a little more concrete, once that is all in your
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># get each set of usernames from the git config (which will be generated from our `default.nix` above)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IDENTITIES</span><span class="o">=</span><span class="k">$(</span>git config --global --name-only --get-regexp <span class="s2">&#34;user.*..name&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s/^user.//&#39;</span> -e <span class="s1">&#39;s/.name$//&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># filter them with fzf</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">IDENTITIES</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> fzf -e -1 +m -q <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> ! git config --global --get-regexp <span class="s2">&#34;user.</span><span class="si">${</span><span class="nv">ID</span><span class="si">}</span><span class="s2">.name&#34;</span> &gt; /dev/null<span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Please use a valid git identity
+</span></span></span><span class="line"><span class="cl"><span class="s2">Options:&#34;</span>
+</span></span><span class="line"><span class="cl">    git config --global --name-only --get-regexp <span class="s2">&#34;user.*..name&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s/^user.//&#39;</span> -e <span class="s1">&#39;s/.name$//&#39;</span> -e <span class="s1">&#39;s/^/\t/&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># set the ID locally in each repo (eg in the repo&#39;s .git/config)</span>
+</span></span><span class="line"><span class="cl">git config user.name <span class="s2">&#34;</span><span class="k">$(</span>git config user.<span class="si">${</span><span class="nv">ID</span><span class="si">}</span>.name<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">git config user.email <span class="s2">&#34;</span><span class="k">$(</span>git config user.<span class="si">${</span><span class="nv">ID</span><span class="si">}</span>.email<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Name: </span><span class="k">$(</span>git config user.name<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Email: </span><span class="k">$(</span>git config user.email<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>To make that all a little more concrete, once that is all in your
 <code>home.nix</code> and <code>./git</code>, run</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">home-manager switch
-</code></pre></div><p>and attempt to commit something to your favorite repo</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">» git commit
-Author identity unknown
-
-*** Please tell me who you are.
-
-Run
-
-  git config --global user.email <span class="s2">&#34;you@example.com&#34;</span>
-  git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
-
-to <span class="nb">set</span> your account<span class="err">&#39;</span>s default identity.
-Omit --global to <span class="nb">set</span> the identity only in this repository.
-
-fatal: no email was given and auto-detection is disabled
-</code></pre></div><p>simply type <code>git identity</code> to get an <code>fzf</code>-powered list of all your various identities.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">home-manager switch
+</span></span></code></pre></div><p>and attempt to commit something to your favorite repo</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">» git commit
+</span></span><span class="line"><span class="cl">Author identity unknown
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Please tell me who you are.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Run
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  git config --global user.email <span class="s2">&#34;you@example.com&#34;</span>
+</span></span><span class="line"><span class="cl">  git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">to <span class="nb">set</span> your account<span class="err">&#39;</span>s default identity.
+</span></span><span class="line"><span class="cl">Omit --global to <span class="nb">set</span> the identity only in this repository.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fatal: no email was given and auto-detection is disabled
+</span></span></code></pre></div><p>simply type <code>git identity</code> to get an <code>fzf</code>-powered list of all your various identities.</p>
 
 			</div>
 		</article>
@@ -188,6 +187,12 @@ fatal: no email was given and auto-detection is disabled
 		<div>
 			<ul>
 				
+				<li><a href="/posts/moving-to-mastodon/">moving to mastodon</a></li>
+				
+				<li><a href="/posts/why-does-zsh-start-slowly/">why does zsh start so slowly?</a></li>
+				
+				<li><a href="/posts/just-a-project-command-center/">just a project command center</a></li>
+				
 				<li><a href="/posts/git-identity-home-manager/">multiple git identities with home-manager and fzf</a></li>
 				
 			</ul>
@@ -197,9 +202,10 @@ fatal: no email was given and auto-detection is disabled
 
 
 	<footer>
-	<p>&copy; 2022 <a href="https://pickard.cc"><b>chris pickard&#39;s weblog</b></a>.
-	<a href="https://github.com/chrispickard"><b>github</b></a>.
-	<a href="https://twitter.com/chrispickard9"><b>twitter</b></a>.
+	<p>&copy; 2024 <a href="https://pickard.cc"><b>chris pickard&#39;s weblog</b></a>.
+	<a  href="https://github.com/chrispickard"><b>github</b></a>.
+	<a  href="https://twitter.com/chrispickard9"><b>twitter</b></a>.
+	<a rel="me" href="https://hachyderm.io/@chrispickard"><b>mastodon</b></a>.
 	</p>
 </footer>
 

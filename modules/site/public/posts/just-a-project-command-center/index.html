@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>just a project command center</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/override.css">
+	
+	
+</head>
+<body>
+	<header>
+	<p>
+	<nav>
+	  <a href="https://pickard.cc">Home</a>
+	  <span style="float: right;">chris pickard&#39;s weblog</span>
+		
+</header>
+
+	
+	<main>
+		<article>
+			<h1>just a project command center</h1>
+			<b><time>07.08.2022</time></b>
+		       
+
+			<div>
+				<p>I used to use the venerable <code>make(1)</code> as my project command runner. I would <code>cd</code> into a project I hadn&rsquo;t touched in
+awhile, run <code>make test</code> and be off to the races. I didn&rsquo;t have to remember whether we used nose or pytest or whether
+this was a go project or node. <code>make test</code> would do the right thing. As a person who often has several balls in the air
+across several different ecosystems this is invaluable. <code>make</code>, however, is not without its warts. It was designed to
+build dependencies, not to run commands. If you want to use <code>make</code> in this way you have to declare every target as
+<code>.PHONY</code> which means it doesn&rsquo;t produce any files and that target will never be up to date (so it should run every
+time). Another problem with <code>make</code> is that despite the fact that it seems to be a standard, there are many
+implementations which don&rsquo;t all have the same features. Wikipedia has a <a href="https://en.wikipedia.org/wiki/Make_(software)#Derivatives">decent list of the disparate
+implementations</a>.</p>
+<p>There have been efforts to replace <code>make</code> over the years as a command runner, but I haven&rsquo;t found them to be that
+compelling. Aside from some oddities in syntax (hope your editor is set up to only use tabs!) and the fact that writing
+an if statement in makefile syntax is borderline impossible it&rsquo;s relatively concise. Most of its newer competitors have
+decided on yaml which trades makefile&rsquo;s syntax oddities for yaml&rsquo;s, and I find yaml&rsquo;s to be much more pernicious. The
+one exception I&rsquo;ve found has been <code>just</code>, which takes makefile syntax, cleans it up a little and adds a ton of niceties
+like built-in help (have you ever used <a href="https://gist.github.com/prwhite/8168133#file-makefile-L4">self-documenting make
+help</a>? I have, it&rsquo;s not great!), built in shell completion, it
+allows you to use arguments and it has many many more features besides. In short, it&rsquo;s a project command center for the
+21st century.</p>
+<p>I encourage you to <a href="https://github.com/casey/just">check it out</a>.</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/moving-to-mastodon/">moving to mastodon</a></li>
+				
+				<li><a href="/posts/why-does-zsh-start-slowly/">why does zsh start so slowly?</a></li>
+				
+				<li><a href="/posts/just-a-project-command-center/">just a project command center</a></li>
+				
+				<li><a href="/posts/git-identity-home-manager/">multiple git identities with home-manager and fzf</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2024 <a href="https://pickard.cc"><b>chris pickard&#39;s weblog</b></a>.
+	<a  href="https://github.com/chrispickard"><b>github</b></a>.
+	<a  href="https://twitter.com/chrispickard9"><b>twitter</b></a>.
+	<a rel="me" href="https://hachyderm.io/@chrispickard"><b>mastodon</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>
