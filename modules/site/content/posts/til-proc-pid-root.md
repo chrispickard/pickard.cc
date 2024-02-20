@@ -9,7 +9,7 @@ https://til.simonwillison.net/. We're starting out with a quick one I learned a 
 
 `/proc` is a pseudo file system that contains information on every process running on the machine,
 each named after the process' PID. there is much more to say about `/proc`, but today we are
-interested in `/proc/<pid>/root`, which is a link to the root directory of this process pointed to
+interested in `/proc/<pid>/root`, which is a link to the root directory of the process pointed to
 by `<pid>`. this gets interesting when you are attempting to debug a container that doesn't have a
 shell. An example is
 
