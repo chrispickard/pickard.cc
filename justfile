@@ -13,7 +13,7 @@ serve-drafts:
   cd {{hugo_dir}} && hugo server -D
 
 deploy:
-  scripts/deploy
+    nix run github:serokell/deploy-rs
 
 update:
   nix flake update
