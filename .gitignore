@@ -3,3 +3,4 @@
 /.direnv/
 /.envrc
 .hugo_build.lock
+/modules/site/public
