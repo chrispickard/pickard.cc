@@ -19,8 +19,8 @@ url = "https://github.com/chrispickard"
 weight = 1
 
 [[menu.footer]]
-name = "twitter"
-url = "https://twitter.com/chrispickard9"
+name = "bluesky"
+url = "https://bsky.app/profile/pickard.cc"
 weight = 2
 
 [[menu.footer]]
